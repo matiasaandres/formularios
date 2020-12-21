@@ -1,0 +1,52 @@
+<h4>
+    Formularios <small> template </small></h4>
+<hr>
+<form autocomplete="off" (ngSubmit)="guardar(forma)" #forma="ngForm">
+
+
+    <div class="mb-3 row">
+        <label class="col-2 col-form-label">Nombre</label>
+        <div class="col-8">
+
+            <input class="form-control" type="text" placeholder="Nombre" [class.is-invalid]="nombre.invalid && nombre.touched" name="nombre" [ngModel]="usuario.nombre" #nombre="ngModel" required minlength="5">
+            <div class="invalid-feedback">
+                Por favor estribe un nombre valido.
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 row">
+        <label class="col-2 col-form-label">Apellido</label>
+        <div class="col-8">
+
+            <input class="form-control" type="text" placeholder="Apellido" name="apellido" ngModel [class.is-invalid]="apellido.invalid && apellido.touched" #apellido="ngModel" required minlength="5">
+            <div class="invalid-feedback">
+                Por favor estribe un Apellido valido .
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mb-3 row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col-8">
+
+            <input class="form-control" type="email" placeholder="Correo electrónico" [class.is-invalid]="correo.invalid && correo.touched" ngModel #correo="ngModel" name="correo" ngModel pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" minlength="5" required>
+            <div class="invalid-feedback">
+                Por favor estribe un correo electrónico valido .
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="mb-3 row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md-8">
+            <button type="submit" class="btn btn-outline-primary w-100">
+        Guardar
+      </button>
+        </div>
+    </div>
+
+</form>
