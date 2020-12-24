@@ -19,7 +19,7 @@
         <label class="col-2 col-form-label">Apellido</label>
         <div class="col-8">
 
-            <input class="form-control" type="text" placeholder="Apellido" name="apellido" ngModel [class.is-invalid]="apellido.invalid && apellido.touched" #apellido="ngModel" required minlength="5">
+            <input class="form-control" type="text" placeholder="Apellido" name="apellido" [ngModel]="usuario.apellido" [class.is-invalid]="apellido.invalid && apellido.touched" #apellido="ngModel" required minlength="5">
             <div class="invalid-feedback">
                 Por favor estribe un Apellido valido .
             </div>
@@ -31,14 +31,27 @@
         <label class="col-2 col-form-label">Correo</label>
         <div class="col-8">
 
-            <input class="form-control" type="email" placeholder="Correo electrónico" [class.is-invalid]="correo.invalid && correo.touched" ngModel #correo="ngModel" name="correo" ngModel pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" minlength="5" required>
+            <input class="form-control" type="email" placeholder="Correo electrónico" [class.is-invalid]="correo.invalid && correo.touched" [ngModel]="usuario.correo" #correo="ngModel" name="correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" minlength="5"
+                required>
             <div class="invalid-feedback">
                 Por favor estribe un correo electrónico valido .
             </div>
         </div>
     </div>
 
-
+    <div class="mb-3 row">
+        <label class="col-2 col-form-label">Pais</label>
+        <div class="col-8">
+            <select name="pais" [ngModel]='usuario.pais' class="form-control" [disabled]='paises.length ===0' [class.is-invalid]="pais.invalid && pais.touched" #pais="ngModel" required>
+             <option *ngFor="let pais of paises" [value]="pais.codigo">
+                 {{pais.nombre}}
+             </option>
+         </select>
+            <div class="invalid-feedback">
+                Por favor Selecciona un País.
+            </div>
+        </div>
+    </div>
 
     <div class="mb-3 row">
         <label class="col-2 col-form-label">&nbsp;</label>
