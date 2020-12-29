@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import {FormsModule} from '@angular/forms'; // para trabajar con formularios
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'; // FormsModule: para trabajar con formularios vía template.-    
+// ReactiveFormsModule: para trabajar con formularios vía reactivos
 import {HttpClientModule} from '@angular/common/http'
 
 
@@ -20,6 +21,7 @@ import { ReactiveComponent } from './pages/reactive/reactive.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
   providers: [],

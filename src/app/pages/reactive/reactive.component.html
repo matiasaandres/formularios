@@ -1,45 +1,120 @@
 <h4>
     Formularios <small> Reactivo </small></h4>
 <hr>
-<form autocomplete="off">
+<form autocomplete="off" [formGroup]="forma" (ngSubmit)="guardar()">
 
     <div>
 
-        <div class="form-group row">
+        <div class="mb-3 row">
             <label class="col-2 col-form-label">Nombre</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Nombre">
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="nombre" [class.is-invalid]="nombreNoValido">
+                <small class="text-danger" *ngIf="nombreNoValido">
+                    Debe ingresar al menos 5 letras como mínimo.
+                </small>
             </div>
         </div>
 
-        <div class="form-group row">
+        <div class="mb-3 row">
             <label class="col-2 col-form-label">Apellido</label>
             <div class="col-8">
 
-                <input class="form-control" type="text" placeholder="Apellido">
+                <input class="form-control" type="text" placeholder="Apellido" formControlName="apellido" [class.is-invalid]="apellidoNoValido">
+                <small class="text-danger" *ngIf="apellidoNoValido">
+                    Debe ingresar al menos 5 letras como mínimo.
+                </small>
             </div>
         </div>
 
     </div>
 
-    <div class="form-group row">
+    <div class="mb-3 row">
         <label class="col-2 col-form-label">Correo</label>
         <div class="col-8">
 
-            <input class="form-control" type="email" placeholder="Correo electrónico">
+            <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="correo" [class.is-invalid]="correoNoValido">
+            <small class="text-danger" *ngIf="correoNoValido">
+                Debe ingresar un correo valido.
+            </small>
+        </div>
+    </div>
+
+    <div class="mb-3 row" formGroupName="direccion">
+        <label class="col-2 col-form-label">Dirección</label>
+
+
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Región" formControlName="region" [class.is-invalid]="regionNoValido">
+            <small class="text-danger" *ngIf="regionNoValido">
+                Debe ingresar una región valida.
+            </small>
+        </div>
+
+        <div class="col-4">
+            <input type="text" class="form-control" placeholder="Comuna" formControlName="comuna" [class.is-invalid]="comunaNoValido">
+            <small class="text-danger" *ngIf="comunaNoValido">
+                Debe ingresar una comuna valida.
+            </small>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+
+            <table class="table">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Pasatiempo</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="pasatiempos">
+                    <tr *ngFor="let control of obtenerPasatiempos.controls; let i = index">
+                        <td>{{i + 1}}</td>
+                        <td>
+                            <input type="text" class="form-control" [formControlName]='i'>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" (click)="eliminarPasatiempo('i')"> Borrar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="button" (click)="agregarPasatiempo()" class="btn btn-primary mt-3 mb-5 w-100">+ Agregar</button>
+
         </div>
     </div>
 
 
 
-    <div class="form-group row">
-        <label class="col-2 col-form-label">&nbsp;</label>
-        <div class="input-group col-md-8">
-            <button type="submit" class="btn btn-outline-primary btn-block">
+
+    <div class="row">
+        <div class="col">
+            <label class="col-2 col-form-label">&nbsp;</label>
+            <div class="input-group col">
+                <button type="submit" class="btn btn-outline-primary w-100">
         Guardar
       </button>
+            </div>
         </div>
+
     </div>
 
 </form>
+<hr>
+<pre>
+    Estado del Formulario: {{ forma.valid}}
+    <br>
+    Status : {{forma.status}}
+</pre>
+
+<pre>
+    {{
+        forma.value | json
+    }}
+</pre>
