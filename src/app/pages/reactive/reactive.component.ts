@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidadoresService } from 'src/app/services/validadores.service';
 
 @Component({
   selector: 'app-reactive',
@@ -9,7 +10,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ReactiveComponent implements OnInit {
   forma: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private validador: ValidadoresService) {
     this.crearFormulario();
     this.cargarDatosFormulario();
   }
@@ -17,28 +18,42 @@ export class ReactiveComponent implements OnInit {
   ngOnInit(): void {}
 
   crearFormulario() {
-    this.forma = this.fb.group({
-      // validaciones de campos
-      nombre: ['', [Validators.required, Validators.minLength(5)]],
-      apellido: ['', [Validators.required, Validators.minLength(5)]],
-      correo: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+    this.forma = this.fb.group(
+      {
+        // validaciones de campos
+        nombre: ['', [Validators.required, Validators.minLength(5)]],
+        apellido: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(5),
+            this.validador.noHerrera,
+          ],
+        ], // noHerrera es una validador personaliazado
+        pass1: ['', Validators.required],
+        pass2: ['', Validators.required],
+        correo: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+          ],
         ],
-      ],
-      direccion: this.fb.group({
-        region: ['', [Validators.required, Validators.minLength(5)]],
-        comuna: ['', [Validators.required, Validators.minLength(5)]],
-      }),
+        direccion: this.fb.group({
+          region: ['', [Validators.required, Validators.minLength(5)]],
+          comuna: ['', [Validators.required, Validators.minLength(5)]],
+        }),
 
-      pasatiempos: this.fb.array([]),
-    });
+        pasatiempos: this.fb.array([]),
+      },
+      {
+        validators: this.validador.passwordsIguales('pass1', 'pass2'),
+      }
+    );
   }
 
   // cargar datos al formulario
-  cargarDatosFormulario() {
+  cargarDatosFormulario() { 
     //this.forma.setValue({
     this.forma.reset({
       nombre: 'matias',
@@ -89,6 +104,15 @@ export class ReactiveComponent implements OnInit {
       this.forma.get('direccion.comuna')?.touched
     );
   }
+  get pass1NoValido() {
+    return this.forma.get('pass1').invalid && this.forma.get('pass1').touched;
+  }
+  get pass2NoValido() {
+    const pass1 = this.forma.get('pass1').value;
+    const pass2 = this.forma.get('pass2').value;
+
+    return pass1 === pass2 ? false : true;
+  }
 
   agregarPasatiempo() {
     this.obtenerPasatiempos.push(
@@ -96,10 +120,8 @@ export class ReactiveComponent implements OnInit {
     );
   }
 
-  eliminarPasatiempo(i:number){
-
+  eliminarPasatiempo(i: number) {
     this.obtenerPasatiempos.removeAt(i);
-
   }
 
   guardar() {
