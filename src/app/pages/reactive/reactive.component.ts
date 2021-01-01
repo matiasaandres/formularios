@@ -32,6 +32,7 @@ export class ReactiveComponent implements OnInit {
         ], // noHerrera es una validador personaliazado
         pass1: ['', Validators.required],
         pass2: ['', Validators.required],
+        usuario:['', , this.validador.existeUsuario],
         correo: [
           '',
           [
@@ -89,6 +90,11 @@ export class ReactiveComponent implements OnInit {
   get correoNoValido() {
     return (
       this.forma.get('correo')?.invalid && this.forma.get('correo')?.touched
+    );
+  }
+  get usuarioNoValido() {
+    return (
+      this.forma.get('usuario')?.invalid && this.forma.get('usuario')?.touched
     );
   }
   get regionNoValido() {

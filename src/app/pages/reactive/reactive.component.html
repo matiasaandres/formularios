@@ -41,6 +41,18 @@
     </div>
 
     <div class="mb-3 row">
+        <label class="col-2 col-form-label">Usuario</label>
+        <div class="col-8">
+
+            <input class="form-control" type="text" placeholder="Usuario" formControlName="usuario" [class.is-invalid]="usuarioNoValido">
+            <small class="text-danger" *ngIf="usuarioNoValido">
+                Ya existe este nombre en los registros.
+            </small>
+        </div>
+    </div>
+
+
+    <div class="mb-3 row">
         <label class="col-2 col-form-label">Contraseña</label>
         <div class="col-8">
 

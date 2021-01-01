@@ -1,11 +1,40 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { rejects } from 'assert';
+import { Observable } from 'rxjs';
+
+
+
+interface ErrorValidate{
+  [s:string] : boolean
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ValidadoresService {
+
+
+
   constructor() {}
+
+  existeUsuario(control : FormControl) : Promise <ErrorValidate> | Observable<ErrorValidate>{
+
+    return new Promise((resolve,reject) =>{
+
+      setTimeout(() => {
+
+           if(control.value === 'matias'){
+
+            resolve({Eexiste:true})
+           }
+           else{
+             resolve(null);
+           }
+
+      },3500);
+    });
+  }
 
   // metodo para validar el valor especifico del campo apellido
 
@@ -30,3 +59,5 @@ export class ValidadoresService {
     }
   }
 }
+
+
